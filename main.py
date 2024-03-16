@@ -42,7 +42,7 @@ def load_data(file_path):
 
 def generate_prediction(prices):
     scaler, prices_scaled = preprocess_data(np.array(prices))
-    lstm_model = train_lstm_model(prices_scaled, lookback_window=30, epochs=100, batch_size=32)
+    lstm_model = train_lstm_model(prices_scaled, lookback_window=30, epochs=100, batch_size=10)
     lstm_predictions_scaled = predict_prices_lstm(lstm_model, prices_scaled, lookback_window=30, num_days=30)
     predictions = scaler.inverse_transform(np.array(lstm_predictions_scaled).reshape(-1, 1))
     return predictions
