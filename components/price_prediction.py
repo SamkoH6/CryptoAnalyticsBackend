@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import LSTM, Dense
 import matplotlib.pyplot as plt
 
@@ -37,7 +37,8 @@ def train_lstm_model(prices_scaled, lookback_window=30, epochs=100, batch_size=1
     X = np.reshape(X, (X.shape[0], X.shape[1], 1))
 
     # Create and train the LSTM model
-    model = create_lstm_model(input_shape=(X.shape[1], 1))
+    # model = create_lstm_model(input_shape=(X.shape[1], 1))
+    model = load_model("lstm_model.keras")
     model.fit(X, y, epochs=epochs, batch_size=batch_size)
     return model
 
