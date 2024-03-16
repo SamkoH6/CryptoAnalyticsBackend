@@ -12,7 +12,7 @@ import os
 from dotenv import load_dotenv
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+CORS(app)
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
@@ -48,7 +48,6 @@ def generate_prediction(prices):
     return predictions
 
 def get_data_dict():
-    market_data = load_data("market_data.txt")
     history_data = load_data("history_data.txt")
 
     if history_data is not None:
