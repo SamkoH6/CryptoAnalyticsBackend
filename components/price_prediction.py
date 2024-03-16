@@ -24,7 +24,7 @@ def create_lstm_model(input_shape):
     model.compile(optimizer='adam', loss='mean_squared_error')
     return model
 
-def train_lstm_model(prices_scaled, lookback_window=30, epochs=100, batch_size=32):
+def train_lstm_model(prices_scaled, lookback_window=30, epochs=100, batch_size=10):
     X, y = [], []
 
     # Create input sequences and target values for training
