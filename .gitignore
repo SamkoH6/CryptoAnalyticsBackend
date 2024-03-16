@@ -1,0 +1,27 @@
+# Dependency directories
+node_modules/
+
+# Compiled output
+build/
+dist/
+*.log
+
+# Environment files
+.env
+
+# IDE files
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Cache and lock files for Yarn
+.yarn/
+.yarnrc
+.yarnrc.yml
+.yarn-integrity
+yarn-error.log
+
+# Cache files for npm
+npm-debug.log

@@ -1,0 +1,115 @@
+# Business Intelligence Internship Project
+
+## Project Structure
+
+- /data: Store raw and processed data files.
+- /code: Python scripts and notebooks for data analysis and dashboard development.
+- /docs: Documentation files.
+- /venv: Virtual environment for Python.
+
+## Dependencies
+
+- Python 3.x
+- pandas
+- matplotlib
+- seaborn
+- dash (visualization in python)
+- sklearn
+- tensorflow
+- Flask
+- Javascript/React
+
+CG-AgNtPLe2y5fseZecUVGrSgUj
+
+## Notes
+
+- From my first analysis of bitcoin I have noticed a sudden spike in the last
+  30 day period, probably has to do with the limited supply, will get to that later posibbly
+- Managed the Coin data price shifts into console output, with days price, and
+  made a graph showcasing the prices line
+- The data sometimes doesnt go through, will have to add a conditional for that
+- Added a function to find the best day of the week, where the prices goes up
+  the highest on average, with showcasing of the data, for now in console
+- Added a visualization for the weekly profits
+
+- Added a market cap difference function, between 2 parameters, 2 coins or curriencies
+- Added live Threads price update
+- Started working on error handling
+
+- Added User inpit, with correct inoput authentication
+- Added moving average
+  Moving average:
+  A moving average is calculated by taking the average of a specified number of past prices over a moving window.
+  It smoothens out short-term fluctuations, highlighting trends and general direction in the data.
+  It provides a clearer picture of the overall trend, reducing the impact of daily price volatility.
+  Different types of moving averages (e.g., simple moving average, exponential moving average) and window sizes can be used based on the analyst's preference and the characteristics of the data.
+- Made a graph comparing sma with historical prices, prices and crypto_prices, same thing but decided to use numpy later
+- Made correlation heat and scatter graph for 2 units, the heatmap came out too basic, the scatter graph is ok
+
+### Scatter plot exlpanation:
+
+Positive Correlation:
+
+Points cluster in a general upward trend from the bottom left to the top right.
+This suggests that when one asset has positive returns, the other tends to also have positive returns.
+Negative Correlation:
+
+Points cluster in a general downward trend from the top left to the bottom right.
+This suggests that when one asset has positive returns, the other tends to have negative returns, and vice versa.
+No Correlation:
+
+Points are scattered randomly, showing no clear trend.
+This suggests that there is no consistent relationship between the daily returns of the two assets.
+
+-Added volatility analysis
+
+### Volatility explanation
+
+Volatility, in the context of financial markets, is a statistical measure of the dispersion of returns for a given security or market index. A volatility of 0.0294 means that the daily returns of the cryptocurrency (in the specified time frame) have a standard deviation of 0.0294.
+
+A lower volatility value generally indicates a more stable or less risky investment, while higher volatility suggests greater price fluctuations and potential risk. The interpretation of volatility depends on the context and the specific asset being analyzed.
+
+In practical terms, a volatility of 0.0294 could be considered relatively low, but the assessment of whether this level of volatility is high or low depends on the investor's risk tolerance and the historical volatility of the asset in question.
+
+- Spit code into components, for better navigation
+- Implemented a live graph function, will check on it later, since it is request heavy
+
+### Price Prediction
+
+- Started working on price prediction, using a simple linear regression model
+- Data fed: sma, actual price and window size
+- X = feature var, SMA, Y = targert var, prices shifted by ws
+- The data is split into training and testing sets using the train_test_split function from sklearn.model_selection
+- The model is trained on the training data (X_train, y_train) using the fit method
+- The model is used to make predictions on the test set (X_test) using the predict method
+- Mean Squared Error (MSE) is calculated to evaluate the model's performance. MSE measures the average squared difference between the true and predicted values
+- The true and predictive prices are visualized with plt
+
+- Decided to go with LSTM model instead, as the linear one was not what i expected
+- The preprocess_data function scales the prices using MinMaxScaler. It returns the scaler object and the scaled prices
+
+- The create_lstm_model function defines an LSTM model using Keras
+
+  - Creates a Sequential model, which is a linear stack of layers
+  - Adds the first LSTM layer to the model with the following parameters:
+    - units=50: Specifies the number of LSTM units or neurons in the layer.
+    - return_sequences=True: Indicates that this layer should return the full sequence of outputs, not just the last output
+  - Adds a second LSTM layer to the model with 50 units. This layer doesn't return sequences, meaning it only returns the last output of the sequence
+  - Adds a Dense layer with a single unit. This layer is often used as the output layer in regression problems
+  - Compiles the model with the specified optimizer and loss function:
+    - optimizer='adam': Uses the Adam optimizer, which is a popular optimization algorithm
+    - loss='mean_squared_error': Sets the mean squared error as the loss function, commonly used for regression problems
+
+- The train_lstm_model function prepares the data, creates the LSTM model, and trains it
+
+  - lookback_window: The number of previous time steps to consider for each prediction, epochs: The number of training epochs(number of times the algorithm will go through the database), batch_size: The number of samples per gradient update during training
+  - The loop iterates over the indices of the prices_scaled array, creating input sequences (X) and corresponding target values (y). Each X sequence has a length of lookback_window, and the corresponding y is the next value in the sequence.
+  - The fit method is essentially where the training of the LSTM model takes place. The model is trained to minimize the difference between its predictions (y_pred) and the true target values (y). The optimization algorithm (in this case, 'adam') adjusts the model's weights to reduce the loss (mean squared error) between predictions and true values
+
+- The predict_prices_lstm function generates predictions for future prices using the trained LSTM model
+  - Inputs is initialized with the last lookback_window scaled prices. This will be the seed or starting point for generating future predictions. The reshaping is done to match the input shape expected by the LSTM model, which is (batch_size, timesteps, features)
+  - The loop iterates for num_days times, making predictions for each iteration. Inside the loop:
+    - prediction_scaled is obtained by predicting the next value based on the current inputs using the LSTM model.
+    - The predicted value is appended to the list predictions_scaled.
+    - inputs is updated by removing the first element (inputs[:, 1:, :]) and adding the newly predicted value (prediction_scaled.reshape(1, 1, 1)) at the end.
+- The visualize_predictions_lstm function visualizes the true and predicted prices, transforming the predictions back to the original scale
