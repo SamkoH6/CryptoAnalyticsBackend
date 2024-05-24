@@ -19,8 +19,6 @@
 - Flask
 - Javascript/React
 
-CG-AgNtPLe2y5fseZecUVGrSgUj
-
 ## Notes
 
 - From my first analysis of bitcoin I have noticed a sudden spike in the last
@@ -113,3 +111,12 @@ In practical terms, a volatility of 0.0294 could be considered relatively low, b
     - The predicted value is appended to the list predictions_scaled.
     - inputs is updated by removing the first element (inputs[:, 1:, :]) and adding the newly predicted value (prediction_scaled.reshape(1, 1, 1)) at the end.
 - The visualize_predictions_lstm function visualizes the true and predicted prices, transforming the predictions back to the original scale
+
+### Frontend
+
+- Built all the frontend in React, dont really want to go muhc into it here since it is now the point
+- Used MUI for easier design, Chart.js for the data display
+
+### Deployment
+
+- Deployed the frontend to vercel and backend to Render, render free tier is pretty bad, 50 seconds dalay after inactivity
